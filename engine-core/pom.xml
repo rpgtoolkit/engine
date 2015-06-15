@@ -23,6 +23,11 @@
     
     <dependencies>
         <dependency>
+            <groupId>net.rpgtoolkit</groupId>
+            <artifactId>core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.luaj</groupId>
             <artifactId>luaj-jse</artifactId>
             <version>3.0.1</version>
