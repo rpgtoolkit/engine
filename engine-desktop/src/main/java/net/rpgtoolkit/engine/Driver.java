@@ -32,7 +32,7 @@ public class Driver {
 
         @Override
         public void render() {
-            this.engine.render();
+            this.engine.update();
         }
 
     }

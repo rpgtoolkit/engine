@@ -9,6 +9,7 @@ package net.rpgtoolkit.engine;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -18,32 +19,39 @@ import java.util.Stack;
  * @author Chris Hutchinson <chris@cshutchinson.com>
  */
 public class Engine {
-        
+
     public Engine() {
         this.states = new Stack<>();
-        this.listeners = new ArrayList<>();      
+        this.listeners = new ArrayList<>();
     }
-    
+
     public void push(State state) {
         this.states.push(state);
     }
-    
+
     public void pop() {
         this.states.pop();
     }
-    
+
     public void reset() {
         this.states.clear();
     }
-    
+
     public void update() {
-        
-    }
-    
-    public void render() {
-        
+
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1.f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
+        if (this.states.size() == 0) {
+            return;
+        }
+        
+        final State state = this.states.peek();
+        
+        if (state != null) {
+            state.update();
+            state.render();
+        }
         
     }
 
