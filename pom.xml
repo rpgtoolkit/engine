@@ -1,0 +1,63 @@
+<!--
+
+    Copyright (c) 2015, rpgtoolkit.net <help@rpgtoolkit.net>
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.rpgtoolkit</groupId>
+    <artifactId>engine</artifactId>
+    <version>4.0.0</version>
+    <packaging>pom</packaging>
+    <inceptionYear>2015</inceptionYear>
+
+    <name>RPG Toolkit 4.x Engine</name>
+    
+    <modules>
+        <module>engine-core</module>
+        <module>engine-desktop</module>
+    </modules>
+
+    <developers>
+        <developer>
+            <id>cshutchinson</id>
+            <name>Chris Hutchinson</name>
+            <email>chris@cshutchinson.com</email>
+            <timezone>America/Detroit</timezone>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>2.11</version>
+                <configuration>
+                    <header>com/mycila/maven/plugin/license/templates/MPL-2.txt</header>
+                    <properties>
+                        <owner>rpgtoolkit.net</owner>
+                        <email>help@rpgtoolkit.net</email>
+                    </properties>
+                    <excludes>
+                        <exclude>src/main/resources/**</exclude>
+                        <exclude>src/test/resources/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
