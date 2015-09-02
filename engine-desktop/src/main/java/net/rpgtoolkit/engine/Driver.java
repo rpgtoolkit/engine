@@ -1,9 +1,8 @@
 /**
  * Copyright (c) 2015, rpgtoolkit.net <help@rpgtoolkit.net>
  *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of
+ * the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package net.rpgtoolkit.engine;
 
@@ -12,7 +11,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Pixmap;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.Properties;
+
 import org.lwjgl.opengl.Display;
 
 /**
@@ -21,46 +26,78 @@ import org.lwjgl.opengl.Display;
  */
 public class Driver {
 
-    public static class DesktopListener
-            extends ApplicationAdapter {
+  public static class DesktopListener
+      extends ApplicationAdapter {
 
-        private final Engine engine;
+    private final Engine engine;
 
-        public DesktopListener(Engine engine) {
-            this.engine = engine;
+    public DesktopListener(Engine engine) {
+
+      this.engine = engine;
+    }
+
+    @Override
+    public void render() {
+      this.engine.update();
+    }
+
+  }
+
+  public static LwjglApplicationConfiguration loadConfig(InputStream stream) throws IOException {
+    Properties properties = new Properties();
+    properties.load(stream);
+
+    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+
+    config.width = Integer.parseInt(properties.getProperty("width", "1024"));
+    config.height = Integer.parseInt(properties.getProperty("height", "768"));
+    config.samples = Integer.parseInt(properties.getProperty("samples", "2"));
+    config.title = properties.getProperty("title", "RPG Toolkit 4.x");
+
+    return config;
+  }
+
+  public static void main(String[] args) {
+    InputStream configStream = null;
+    LwjglApplicationConfiguration config = null;
+
+    try {
+      //We load a properties file from the classpath since gdx has not been setup yet
+      configStream = Driver.class.getClassLoader().getResourceAsStream("config.properties");
+      if(configStream == null) {
+        throw new FileNotFoundException("config.properties");
+      }
+
+      //Parse the configuration
+      config = loadConfig(configStream);
+
+    } catch(IOException e) {
+
+      // TODO: Log stuff here
+      e.printStackTrace();
+
+    } finally {
+
+      if(configStream != null) {
+        try {
+          configStream.close();
+        } catch (IOException e) {
+          //TODO: Log stuff here
+          e.printStackTrace();
         }
-
-        @Override
-        public void render() {
-            this.engine.update();
-        }
+      }
 
     }
 
-    public static void main(String[] args) {
+    if(config != null) {
+      final Engine engine = new Engine();
+      final LwjglApplication app = new LwjglApplication(new DesktopListener(engine), config);
+      app.log("INFO", "Game has started.");
 
-        final Engine engine = new Engine();
-
-        LwjglApplicationConfiguration config
-                = new LwjglApplicationConfiguration();
-
-        config.width = 1024;
-        config.height = 768;
-        config.samples = 2;
-        config.title = "RPG Toolkit 4.x";
-
-        final LwjglApplication app = new LwjglApplication(
-                new DesktopListener(engine), config);
-
-        // Set window icon
-
-        final Pixmap icon = new Pixmap(
-                Gdx.files.internal("icon.png"));
-        
-        Display.setIcon(new ByteBuffer[] {
-            icon.getPixels()
-        });
-
+      // Set window icon
+      final Pixmap icon = new Pixmap(Gdx.files.internal("icon.png"));
+      Display.setIcon(new ByteBuffer[]{icon.getPixels()});
     }
+  }
 
 }
