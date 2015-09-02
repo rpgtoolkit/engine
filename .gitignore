@@ -1,3 +1,6 @@
 # Ignore intelliJ IDE files
 .idea
 *.iml
+
+# Ignore compiled jars
+target
