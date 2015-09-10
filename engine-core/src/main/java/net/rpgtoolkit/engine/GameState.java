@@ -11,14 +11,14 @@ package net.rpgtoolkit.engine;
  *
  * @author Chris Hutchinson <chris@cshutchinson.com>
  */
-public interface State {
-    
-    void initialize();
-    
-    void dispose();
-    
-    void update();
-    
-    void render();
-    
+public interface GameState {
+  void pause();
+
+  void quit();
+
+  void render();
+
+  void resume();
+
+  void update();
 }

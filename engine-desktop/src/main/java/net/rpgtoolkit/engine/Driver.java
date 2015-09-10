@@ -6,7 +6,6 @@
  */
 package net.rpgtoolkit.engine;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -25,24 +24,6 @@ import org.lwjgl.opengl.Display;
  * @author Chris Hutchinson <chris@cshutchinson.com>
  */
 public class Driver {
-
-  public static class DesktopListener
-      extends ApplicationAdapter {
-
-    private final Engine engine;
-
-    public DesktopListener(Engine engine) {
-
-      this.engine = engine;
-    }
-
-    @Override
-    public void render() {
-      this.engine.update();
-    }
-
-  }
-
   public static LwjglApplicationConfiguration loadConfig(InputStream stream) throws IOException {
     Properties properties = new Properties();
     properties.load(stream);
@@ -86,12 +67,10 @@ public class Driver {
           e.printStackTrace();
         }
       }
-
     }
 
     if(config != null) {
-      final Engine engine = new Engine();
-      final LwjglApplication app = new LwjglApplication(new DesktopListener(engine), config);
+      final LwjglApplication app = new LwjglApplication(new DesktopGame(), config);
       app.log("INFO", "Game has started.");
 
       // Set window icon
