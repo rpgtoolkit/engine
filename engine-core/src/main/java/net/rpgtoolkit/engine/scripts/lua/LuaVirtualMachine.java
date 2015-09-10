@@ -23,7 +23,7 @@ import java.io.Reader;
  * @author Mario Badr
  */
 public class LuaVirtualMachine implements VirtualMachine {
-  Globals globals;
+  private final Globals globals;
 
   public LuaVirtualMachine() {
     this.globals = new Globals();
@@ -34,10 +34,12 @@ public class LuaVirtualMachine implements VirtualMachine {
     this.globals.load(new StringLib());   // Load lua's string library
     this.globals.load(new JseMathLib());  // Load lua's math library
 
+    // Register Java functions to be called from scripts
+    this.globals.set(LuaEngineLibrary.NAME, LuaEngineLibrary.create());
+
     LoadState.install(this.globals); // TODO: Is this needed?
     LuaC.install(this.globals); // Set up the lua compiler with this sandbox
 
-    // TODO: Register Java objects/functions to be called from scripts
   }
 
   @Override

@@ -6,9 +6,6 @@
  */
 package net.rpgtoolkit.engine;
 
-import net.rpgtoolkit.engine.scripts.VirtualMachine;
-import net.rpgtoolkit.engine.scripts.lua.LuaVirtualMachine;
-
 import java.util.Stack;
 
 /**
@@ -19,15 +16,13 @@ import java.util.Stack;
  * @author Chris Hutchinson <chris@cshutchinson.com>
  * @author Mario Badr
  */
-public class Game {
+public enum Game {
+  INSTANCE; //Singleton
 
   private Stack<GameState> gameStates;
 
-  private VirtualMachine virtualMachine;
-
-  public Game() {
+  Game() {
     this.gameStates = new Stack<>();
-    this.virtualMachine = new LuaVirtualMachine();
   }
 
   /**
