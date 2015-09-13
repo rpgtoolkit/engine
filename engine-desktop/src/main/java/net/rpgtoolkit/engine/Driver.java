@@ -43,7 +43,7 @@ public class Driver {
     LwjglApplicationConfiguration config = null;
 
     try {
-      //We load a properties file from the classpath since gdx has not been setup yet
+      //We loadScript a properties file from the classpath since gdx has not been setup yet
       configStream = Driver.class.getClassLoader().getResourceAsStream("config.properties");
       if(configStream == null) {
         throw new FileNotFoundException("config.properties");

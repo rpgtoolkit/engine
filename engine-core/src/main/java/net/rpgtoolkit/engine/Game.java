@@ -16,11 +16,12 @@ import java.util.Stack;
  * @author Chris Hutchinson <chris@cshutchinson.com>
  * @author Mario Badr
  */
-public class Game {
+public enum Game {
+  INSTANCE; //Singleton
 
   private Stack<GameState> gameStates;
 
-  public Game() {
+  Game() {
     this.gameStates = new Stack<>();
   }
 
