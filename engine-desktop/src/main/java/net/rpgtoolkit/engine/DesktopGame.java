@@ -24,9 +24,6 @@ public class DesktopGame implements ApplicationListener {
     VirtualMachine vm = new LuaVirtualMachine();
     Script script = vm.loadScript(scriptHandle.readString());
     script.run();
-
-    EmptyGameState initialState = new EmptyGameState();
-    game.push(initialState);
   }
 
   @Override

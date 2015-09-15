@@ -1,7 +1,5 @@
 package net.rpgtoolkit.engine.scripts.lua;
 
-import net.rpgtoolkit.engine.EmptyGameState;
-import net.rpgtoolkit.engine.GameState;
 import net.rpgtoolkit.engine.scripts.EmptyScript;
 import net.rpgtoolkit.engine.scripts.Script;
 import net.rpgtoolkit.engine.scripts.VirtualMachine;
@@ -9,15 +7,11 @@ import net.rpgtoolkit.engine.scripts.VirtualMachine;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LoadState;
 import org.luaj.vm2.LuaError;
-import org.luaj.vm2.LuaTable;
-import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.PackageLib;
 import org.luaj.vm2.lib.StringLib;
 import org.luaj.vm2.lib.jse.JseBaseLib;
 import org.luaj.vm2.lib.jse.JseMathLib;
-
-import java.io.Reader;
 
 /**
  * @author Mario Badr
@@ -25,6 +19,10 @@ import java.io.Reader;
 public class LuaVirtualMachine implements VirtualMachine {
   private final Globals globals;
 
+  /**
+   * Create a Lua sandbox that will be used to run scripts. The sandbox includes Lua's base,
+   * package, string, and math library.
+   */
   public LuaVirtualMachine() {
     this.globals = new Globals();
 
@@ -43,28 +41,6 @@ public class LuaVirtualMachine implements VirtualMachine {
   }
 
   @Override
-  public GameState loadGameState(Reader reader, String name) {
-    try {
-      return loadGameState(globals.load(reader, name));
-    } catch (LuaError luaError) {
-      luaError.printStackTrace();
-
-      return new EmptyGameState();
-    }
-  }
-
-  @Override
-  public Script loadScript(Reader reader, String name) {
-    try {
-      return new LuaScript(globals.load(reader, name));
-    } catch (LuaError luaError) {
-      luaError.printStackTrace();
-
-      return new EmptyScript();
-    }
-  }
-
-  @Override
   public Script loadScript(String sourceCode) {
     try {
       return new LuaScript(globals.load(sourceCode));
@@ -73,13 +49,5 @@ public class LuaVirtualMachine implements VirtualMachine {
 
       return new EmptyScript();
     }
-  }
-
-  private GameState loadGameState(LuaValue luaValue) {
-    if(luaValue.istable()) {
-      return new LuaGameState((LuaTable) luaValue);
-    }
-
-    return new EmptyGameState();
   }
 }
