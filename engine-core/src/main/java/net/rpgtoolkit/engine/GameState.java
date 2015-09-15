@@ -12,6 +12,8 @@ package net.rpgtoolkit.engine;
  * @author Chris Hutchinson <chris@cshutchinson.com>
  */
 public interface GameState {
+  void initialize();
+
   void pause();
 
   void quit();

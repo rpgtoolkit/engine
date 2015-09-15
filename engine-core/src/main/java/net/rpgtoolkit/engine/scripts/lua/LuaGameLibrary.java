@@ -1,6 +1,10 @@
 package net.rpgtoolkit.engine.scripts.lua;
 
+import com.badlogic.gdx.Gdx;
+
 import net.rpgtoolkit.engine.Game;
+import net.rpgtoolkit.engine.GameState;
+import net.rpgtoolkit.engine.LogTags;
 
 import org.luaj.vm2.LuaBoolean;
 import org.luaj.vm2.LuaTable;
@@ -27,11 +31,14 @@ public class LuaGameLibrary {
     @Override
     public LuaValue call(LuaValue stateTable) {
       if(stateTable.istable()) {
-        Game.INSTANCE.push(new LuaGameState((LuaTable) stateTable));
+        GameState gameState = new LuaGameState((LuaTable) stateTable);
+        Game.INSTANCE.push(gameState);
 
         return LuaBoolean.TRUE;
       }
 
+      Gdx.app.debug(LogTags.LUA, "During PushGameState: expected LuaTable, got " + stateTable +
+          ".");
       return LuaBoolean.FALSE;
     }
   }

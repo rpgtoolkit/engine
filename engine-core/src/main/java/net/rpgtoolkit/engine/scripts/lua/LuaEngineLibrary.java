@@ -12,6 +12,8 @@ public class LuaEngineLibrary {
     LuaTable library = new LuaTable();
 
     library.set(LuaGameLibrary.NAME, LuaGameLibrary.create());
+    library.set(LuaAssetLibrary.NAME, LuaAssetLibrary.create());
+    library.set(LuaDrawLibrary.NAME, LuaDrawLibrary.create());
 
     return library;
   }

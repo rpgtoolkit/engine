@@ -13,6 +13,13 @@ public class LuaGameState implements GameState {
 
   public LuaGameState(LuaTable gameStateTable) {
     this.gameStateTable = gameStateTable;
+
+    initialize();
+  }
+
+  @Override
+  public void initialize() {
+    callFunction("initialize");
   }
 
   @Override
@@ -46,7 +53,8 @@ public class LuaGameState implements GameState {
     if(function.isfunction()) {
       function.call();
     } else {
-      Gdx.app.debug(LogTags.LUA, "Could not find " + functionName + "function in lua game state.");
+      Gdx.app.debug(LogTags.LUA, "During callFunction: could not find " + functionName +
+          "function in lua game state.");
     }
   }
 }

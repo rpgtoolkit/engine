@@ -20,6 +20,8 @@ public class DesktopGame implements ApplicationListener {
 
   @Override
   public void create() {
+    Game.INSTANCE.create();
+
     FileHandle scriptHandle = Gdx.files.internal("main.lua");
     VirtualMachine vm = new LuaVirtualMachine();
     Script script = vm.loadScript(scriptHandle.readString());
