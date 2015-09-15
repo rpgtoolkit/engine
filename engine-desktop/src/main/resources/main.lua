@@ -1,10 +1,10 @@
-local texture
+local texture = "icon.png"
 
 state = {}
 
 state.initialize = function ()
     print("Initializing")
-    texture = tk.assets.loadTexture("icon.png")
+    tk.assets.loadTexture(texture)
 end
 
 state.pause = function ()
@@ -21,7 +21,7 @@ end
 
 
 state.render = function ()
-    tk.draw.texture("icon.png")
+    tk.draw.texture(texture)
 end
 
 state.update = function ()
