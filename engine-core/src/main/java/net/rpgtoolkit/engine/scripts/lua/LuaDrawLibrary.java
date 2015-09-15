@@ -44,14 +44,31 @@ public class LuaDrawLibrary {
 
             if(args.narg() == 1) {
               Game.INSTANCE.getBatch().draw(texture, 0, 0);
+            } else if (args.narg() == 3) {
+              LuaValue x = args.arg(2);
+              LuaValue y = args.arg(3);
+
+              if(x.isnumber() && y.isnumber()) {
+                Game.INSTANCE.getBatch().draw(texture, x.tofloat(), y.tofloat());
+              } else {
+                Gdx.app.error(LogTags.TK, "During DrawTexture: expected two LuaNumbers, got " + x
+                    + " and " + y);
+
+                return LuaBoolean.FALSE;
+              }
             }
           } catch (GdxRuntimeException exception) {
             Gdx.app.error(LogTags.TK, "During DrawTexture: asset could not be drawn.", exception);
+
+            return LuaBoolean.FALSE;
           }
 
           return LuaBoolean.TRUE;
         } else {
           Gdx.app.log(LogTags.TK, "During DrawTexture: asset is still loading.");
+
+          // There was no error, the asset is just being loaded, so we return true
+          return LuaBoolean.TRUE;
         }
       }
 

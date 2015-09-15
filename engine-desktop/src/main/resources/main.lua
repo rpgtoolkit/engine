@@ -22,6 +22,8 @@ end
 
 state.render = function ()
     tk.draw.texture(texture)
+
+    tk.draw.texture(texture, 123.65, 123)
 end
 
 state.update = function ()
