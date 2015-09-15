@@ -13,7 +13,7 @@ public class LuaEngineLibrary {
 
     library.set(LuaGameLibrary.NAME, LuaGameLibrary.create());
     library.set(LuaAssetLibrary.NAME, LuaAssetLibrary.create());
-    library.set(LuaDrawLibrary.NAME, LuaDrawLibrary.create());
+    library.set(LuaGraphicsLibrary.NAME, LuaGraphicsLibrary.create());
 
     return library;
   }

@@ -2,6 +2,7 @@ package net.rpgtoolkit.engine.scripts.lua;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
@@ -13,23 +14,35 @@ import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
+import org.luaj.vm2.lib.ZeroArgFunction;
 
 /**
  * @author Mario Badr
  */
-public class LuaDrawLibrary {
-  public static final String NAME = "draw";
+public class LuaGraphicsLibrary {
+  public static final String NAME = "graphics";
 
   public static LuaTable create() {
     LuaTable library = new LuaTable();
 
-    library.set(DrawTexture.NAME, new LuaDrawLibrary.DrawTexture());
+    library.set(ClearScreen.NAME, new LuaGraphicsLibrary.ClearScreen());
+    library.set(DrawTexture.NAME, new LuaGraphicsLibrary.DrawTexture());
 
     return library;
   }
 
+  public static class ClearScreen extends ZeroArgFunction {
+    public static final String NAME = "clearScreen";
+    @Override
+    public LuaValue call() {
+      Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+      return LuaBoolean.TRUE;
+    }
+  }
+
   public static class DrawTexture extends VarArgFunction {
-    public static final String NAME = "texture";
+    public static final String NAME = "drawTexture";
 
     @Override
     public LuaValue invoke(Varargs args) {
