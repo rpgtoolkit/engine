@@ -21,13 +21,15 @@ public class LuaGameLibrary {
   public static LuaTable create() {
     LuaTable library = new LuaTable();
 
-    library.set("push", new LuaGameLibrary.PushGameState());
-    library.set("pop", new LuaGameLibrary.PopGameState());
+    library.set(PushGameState.NAME, new LuaGameLibrary.PushGameState());
+    library.set(PopGameState.NAME, new LuaGameLibrary.PopGameState());
 
     return library;
   }
 
   public static class PushGameState extends OneArgFunction {
+    public static final String NAME = "push";
+
     @Override
     public LuaValue call(LuaValue stateTable) {
       if(stateTable.istable()) {
@@ -44,6 +46,8 @@ public class LuaGameLibrary {
   }
 
   public static class PopGameState extends ZeroArgFunction {
+    public static final String NAME = "pop";
+
     @Override
     public LuaValue call() {
       Game.INSTANCE.pop();
