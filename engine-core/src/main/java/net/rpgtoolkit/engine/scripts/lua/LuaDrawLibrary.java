@@ -44,15 +44,35 @@ public class LuaDrawLibrary {
 
             if(args.narg() == 1) {
               Game.INSTANCE.getBatch().draw(texture, 0, 0);
-            } else if (args.narg() == 3) {
+            } else if (args.narg() >= 3) {
               LuaValue x = args.arg(2);
               LuaValue y = args.arg(3);
 
               if(x.isnumber() && y.isnumber()) {
-                Game.INSTANCE.getBatch().draw(texture, x.tofloat(), y.tofloat());
+
+                if(args.narg() == 3) {
+                  Game.INSTANCE.getBatch().draw(texture, x.tofloat(), y.tofloat());
+                } else if (args.narg() == 5) {
+                  LuaValue width = args.arg(4);
+                  LuaValue height = args.arg(5);
+
+                  if(width.isnumber() && height.isnumber()) {
+                    Game.INSTANCE.getBatch().draw(texture, x.tofloat(), y.tofloat(), width.tofloat(),
+                        height.tofloat());
+                  } else {
+                    Gdx.app.error(LogTags.TK, "During DrawTexture: expected width, height to be " +
+                        "LuaNumbers, got " + width + " and " + height);
+
+                    return LuaBoolean.FALSE;
+                  }
+                } else {
+                  Gdx.app.error(LogTags.TK, "During DrawTexture: unexpected number of arguments");
+
+                  return LuaBoolean.FALSE;
+                }
               } else {
-                Gdx.app.error(LogTags.TK, "During DrawTexture: expected two LuaNumbers, got " + x
-                    + " and " + y);
+                Gdx.app.error(LogTags.TK, "During DrawTexture: expected x, y to be LuaNumbers, got "
+                    + x + " and " + y);
 
                 return LuaBoolean.FALSE;
               }
