@@ -1,5 +1,8 @@
 package net.rpgtoolkit.engine.scripts.lua;
 
+import com.badlogic.gdx.Gdx;
+
+import net.rpgtoolkit.engine.LogTags;
 import net.rpgtoolkit.engine.scripts.EmptyScript;
 import net.rpgtoolkit.engine.scripts.Script;
 import net.rpgtoolkit.engine.scripts.VirtualMachine;
@@ -45,7 +48,7 @@ public class LuaVirtualMachine implements VirtualMachine {
     try {
       return new LuaScript(globals.load(sourceCode));
     } catch (LuaError luaError) {
-      luaError.printStackTrace();
+      Gdx.app.error(LogTags.LUA, "Unable to load script. ", luaError);
 
       return new EmptyScript();
     }

@@ -71,7 +71,7 @@ public class Driver {
 
     if(config != null) {
       final LwjglApplication app = new LwjglApplication(new DesktopGame(), config);
-      app.log("INFO", "Game has started.");
+      app.log(LogTags.TK, "Game has started.");
 
       // Set window icon
       final Pixmap icon = new Pixmap(Gdx.files.internal("icon.png"));

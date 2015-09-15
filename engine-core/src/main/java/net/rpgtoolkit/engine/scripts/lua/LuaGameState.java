@@ -1,6 +1,9 @@
 package net.rpgtoolkit.engine.scripts.lua;
 
+import com.badlogic.gdx.Gdx;
+
 import net.rpgtoolkit.engine.GameState;
+import net.rpgtoolkit.engine.LogTags;
 
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
@@ -42,8 +45,8 @@ public class LuaGameState implements GameState {
 
     if(function.isfunction()) {
       function.call();
+    } else {
+      Gdx.app.debug(LogTags.LUA, "Could not find " + functionName + "function in lua game state.");
     }
-
-    // TODO: Otherwise... Log error? Throw exception?
   }
 }

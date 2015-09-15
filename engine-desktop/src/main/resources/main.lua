@@ -1,12 +1,23 @@
 state = {}
-state.resume = function ()
-    print("Resuming")
-end
 
 state.pause = function ()
     print("Pausing")
 end
 
-print(tk.game.push(state))
---tk.game.pop()
+state.quit = function ()
+    print("Quitting")
+end
+
+state.resume = function ()
+    print("Resuming")
+end
+
+
+state.render = function ()
+end
+
+state.update = function ()
+end
+
+tk.game.push(state)
 print("Hello World")
