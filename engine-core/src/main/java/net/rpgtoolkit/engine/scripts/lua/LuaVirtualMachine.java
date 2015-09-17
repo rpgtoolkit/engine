@@ -1,8 +1,5 @@
 package net.rpgtoolkit.engine.scripts.lua;
 
-import com.badlogic.gdx.Gdx;
-
-import net.rpgtoolkit.engine.LogTags;
 import net.rpgtoolkit.engine.scripts.EmptyScript;
 import net.rpgtoolkit.engine.scripts.Script;
 import net.rpgtoolkit.engine.scripts.VirtualMachine;
@@ -16,10 +13,15 @@ import org.luaj.vm2.lib.StringLib;
 import org.luaj.vm2.lib.jse.JseBaseLib;
 import org.luaj.vm2.lib.jse.JseMathLib;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Mario Badr
  */
 public class LuaVirtualMachine implements VirtualMachine {
+  private final static Logger LOGGER = Logger.getLogger(LuaVirtualMachine.class.getName());
+
   private final Globals globals;
 
   /**
@@ -48,7 +50,7 @@ public class LuaVirtualMachine implements VirtualMachine {
     try {
       return new LuaScript(globals.load(sourceCode));
     } catch (LuaError luaError) {
-      Gdx.app.error(LogTags.LUA, "During loadScript: an unexpected error occurred.", luaError);
+      LOGGER.log(Level.SEVERE, "An unexpected error occurred.", luaError);
 
       return new EmptyScript();
     }

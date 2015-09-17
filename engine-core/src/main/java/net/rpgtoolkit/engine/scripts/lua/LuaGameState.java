@@ -1,14 +1,15 @@
 package net.rpgtoolkit.engine.scripts.lua;
 
-import com.badlogic.gdx.Gdx;
-
 import net.rpgtoolkit.engine.GameState;
-import net.rpgtoolkit.engine.LogTags;
 
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 
+import java.util.logging.Logger;
+
 public class LuaGameState implements GameState {
+  private final static Logger LOGGER = Logger.getLogger(LuaGameState.class.getName());
+
   private LuaTable gameStateTable;
 
   public LuaGameState(LuaTable gameStateTable) {
@@ -53,8 +54,7 @@ public class LuaGameState implements GameState {
     if(function.isfunction()) {
       function.call();
     } else {
-      Gdx.app.debug(LogTags.LUA, "During callFunction: could not find " + functionName +
-          "function in lua game state.");
+      LOGGER.warning("Could not find " + functionName + "function in lua game state.");
     }
   }
 }

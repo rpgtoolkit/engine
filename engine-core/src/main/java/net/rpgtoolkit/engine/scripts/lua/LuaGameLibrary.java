@@ -1,10 +1,7 @@
 package net.rpgtoolkit.engine.scripts.lua;
 
-import com.badlogic.gdx.Gdx;
-
 import net.rpgtoolkit.engine.Game;
 import net.rpgtoolkit.engine.GameState;
-import net.rpgtoolkit.engine.LogTags;
 
 import org.luaj.vm2.LuaBoolean;
 import org.luaj.vm2.LuaTable;
@@ -12,10 +9,13 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.ZeroArgFunction;
 
+import java.util.logging.Logger;
+
 /**
  * @author Mario Badr
  */
 public class LuaGameLibrary {
+  private final static Logger LOGGER = Logger.getLogger(LuaGameLibrary.class.getName());
   public static final String NAME = "game";
 
   public static LuaTable create() {
@@ -39,8 +39,7 @@ public class LuaGameLibrary {
         return LuaBoolean.TRUE;
       }
 
-      Gdx.app.debug(LogTags.LUA, "During PushGameState: expected LuaTable, got " + stateTable +
-          ".");
+      LOGGER.warning("Expected LuaTable, got " + stateTable + ".");
       return LuaBoolean.FALSE;
     }
   }
