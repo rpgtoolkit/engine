@@ -87,7 +87,7 @@ public enum Game {
   }
 
   /**
-   * Exit out of all GameStates being managed.
+   * Exit the game.
    */
   public void quit() {
     for(GameState gameState : gameStates) {
@@ -95,6 +95,8 @@ public enum Game {
     }
 
     gameStates.clear();
+    assetManager.dispose();
+    batch.dispose();
   }
 
   /**
