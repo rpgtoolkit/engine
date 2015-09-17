@@ -10,6 +10,7 @@ import org.luaj.vm2.LuaBoolean;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.ZeroArgFunction;
 
 /**
  * @author Mario Badr
@@ -20,9 +21,22 @@ public class LuaAssetLibrary {
   public static LuaTable create() {
     LuaTable library = new LuaTable();
 
+    library.set(FinishLoading.NAME, new LuaAssetLibrary.FinishLoading());
     library.set(LoadTexture.NAME, new LuaAssetLibrary.LoadTexture());
 
+
     return library;
+  }
+
+  public static class FinishLoading extends ZeroArgFunction {
+    public static final String NAME = "finishLoading";
+
+    @Override
+    public LuaValue call() {
+      Game.INSTANCE.getAssetManager().finishLoading();
+
+      return LuaBoolean.TRUE;
+    }
   }
 
   public static class LoadTexture extends OneArgFunction {
