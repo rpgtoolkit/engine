@@ -6,6 +6,12 @@
  */
 package net.rpgtoolkit.engine;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+
 import java.util.Stack;
 
 /**
@@ -21,8 +27,26 @@ public enum Game {
 
   private Stack<GameState> gameStates;
 
+  private AssetManager assetManager;
+
+  private Batch batch;
+
   Game() {
     this.gameStates = new Stack<>();
+  }
+
+  public void create() {
+    this.assetManager = new AssetManager();
+    this.batch = new SpriteBatch();
+    this.batch.begin();
+  }
+
+  public AssetManager getAssetManager() {
+    return assetManager;
+  }
+
+  public Batch getBatch() {
+    return batch;
   }
 
   /**
@@ -80,6 +104,10 @@ public enum Game {
     if(!gameStates.empty()) {
       gameStates.peek().render();
     }
+
+    // We do end first to allow draw calls to happen anywhere (i.e. not just in this function)
+    batch.end();
+    batch.begin();
   }
 
   /**
@@ -95,6 +123,14 @@ public enum Game {
    * Update the game logic of the active GameState by one time unit.
    */
   public void update() {
+    try {
+      // Continue loading assets asynchronously
+      assetManager.update();
+    } catch (GdxRuntimeException exception) {
+      Gdx.app.error(LogTags.TK, "During update: an unexpected error occurred.",
+          exception);
+    }
+
     if(!gameStates.empty()) {
       gameStates.peek().update();
     }

@@ -48,7 +48,7 @@ public class LuaVirtualMachine implements VirtualMachine {
     try {
       return new LuaScript(globals.load(sourceCode));
     } catch (LuaError luaError) {
-      Gdx.app.error(LogTags.LUA, "Unable to load script. ", luaError);
+      Gdx.app.error(LogTags.LUA, "During loadScript: an unexpected error occurred.", luaError);
 
       return new EmptyScript();
     }

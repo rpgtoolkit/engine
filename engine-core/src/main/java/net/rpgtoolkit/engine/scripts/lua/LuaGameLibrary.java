@@ -1,6 +1,10 @@
 package net.rpgtoolkit.engine.scripts.lua;
 
+import com.badlogic.gdx.Gdx;
+
 import net.rpgtoolkit.engine.Game;
+import net.rpgtoolkit.engine.GameState;
+import net.rpgtoolkit.engine.LogTags;
 
 import org.luaj.vm2.LuaBoolean;
 import org.luaj.vm2.LuaTable;
@@ -17,26 +21,33 @@ public class LuaGameLibrary {
   public static LuaTable create() {
     LuaTable library = new LuaTable();
 
-    library.set("push", new LuaGameLibrary.PushGameState());
-    library.set("pop", new LuaGameLibrary.PopGameState());
+    library.set(PushGameState.NAME, new LuaGameLibrary.PushGameState());
+    library.set(PopGameState.NAME, new LuaGameLibrary.PopGameState());
 
     return library;
   }
 
   public static class PushGameState extends OneArgFunction {
+    public static final String NAME = "push";
+
     @Override
     public LuaValue call(LuaValue stateTable) {
       if(stateTable.istable()) {
-        Game.INSTANCE.push(new LuaGameState((LuaTable) stateTable));
+        GameState gameState = new LuaGameState((LuaTable) stateTable);
+        Game.INSTANCE.push(gameState);
 
         return LuaBoolean.TRUE;
       }
 
+      Gdx.app.debug(LogTags.LUA, "During PushGameState: expected LuaTable, got " + stateTable +
+          ".");
       return LuaBoolean.FALSE;
     }
   }
 
   public static class PopGameState extends ZeroArgFunction {
+    public static final String NAME = "pop";
+
     @Override
     public LuaValue call() {
       Game.INSTANCE.pop();
