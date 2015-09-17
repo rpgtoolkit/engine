@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lwjgl.opengl.Display;
@@ -55,19 +56,14 @@ public class Driver {
       //Parse the configuration
       config = loadConfig(configStream);
 
-    } catch(IOException e) {
-
-      // TODO: Log stuff here
-      e.printStackTrace();
-
+    } catch(IOException exception) {
+      LOGGER.log(Level.SEVERE, "Could not load config.properties from classpath.", exception);
     } finally {
-
       if(configStream != null) {
         try {
           configStream.close();
-        } catch (IOException e) {
-          //TODO: Log stuff here
-          e.printStackTrace();
+        } catch (IOException exception) {
+          LOGGER.log(Level.SEVERE, "Could not close config.properties.", exception);
         }
       }
     }
