@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.lwjgl.opengl.Display;
 
@@ -24,6 +26,8 @@ import org.lwjgl.opengl.Display;
  * @author Chris Hutchinson <chris@cshutchinson.com>
  */
 public class Driver {
+  private final static Logger LOGGER = Logger.getLogger(Driver.class.getName());
+
   public static LwjglApplicationConfiguration loadConfig(InputStream stream) throws IOException {
     Properties properties = new Properties();
     properties.load(stream);
@@ -52,26 +56,21 @@ public class Driver {
       //Parse the configuration
       config = loadConfig(configStream);
 
-    } catch(IOException e) {
-
-      // TODO: Log stuff here
-      e.printStackTrace();
-
+    } catch(IOException exception) {
+      LOGGER.log(Level.SEVERE, "Could not load config.properties from classpath.", exception);
     } finally {
-
       if(configStream != null) {
         try {
           configStream.close();
-        } catch (IOException e) {
-          //TODO: Log stuff here
-          e.printStackTrace();
+        } catch (IOException exception) {
+          LOGGER.log(Level.SEVERE, "Could not close config.properties.", exception);
         }
       }
     }
 
     if(config != null) {
       final LwjglApplication app = new LwjglApplication(new DesktopGame(), config);
-      app.log(LogTags.TK, "Game has started.");
+      LOGGER.info("Game has started.");
 
       // Set window icon
       final Pixmap icon = new Pixmap(Gdx.files.internal("icon.png"));

@@ -6,13 +6,14 @@
  */
 package net.rpgtoolkit.engine;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The Game class manages GameStates. Only one GameState can be active at any time. The active
@@ -24,6 +25,8 @@ import java.util.Stack;
  */
 public enum Game {
   INSTANCE; //Singleton
+
+  private final static Logger LOGGER = Logger.getLogger(Game.class.getName());
 
   private Stack<GameState> gameStates;
 
@@ -129,8 +132,7 @@ public enum Game {
       // Continue loading assets asynchronously
       assetManager.update();
     } catch (GdxRuntimeException exception) {
-      Gdx.app.error(LogTags.TK, "During update: an unexpected error occurred.",
-          exception);
+      LOGGER.log(Level.SEVERE, "An unexpected error occurred while loading assets.", exception);
     }
 
     if(!gameStates.empty()) {

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import net.rpgtoolkit.engine.Game;
-import net.rpgtoolkit.engine.LogTags;
 
 import org.luaj.vm2.LuaBoolean;
 import org.luaj.vm2.LuaTable;
@@ -16,10 +15,15 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.ZeroArgFunction;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Mario Badr
  */
 public class LuaGraphicsLibrary {
+  private final static Logger LOGGER = Logger.getLogger(LuaGraphicsLibrary.class.getName());
+
   public static final String NAME = "graphics";
 
   public static LuaTable create() {
@@ -70,35 +74,34 @@ public class LuaGraphicsLibrary {
                   LuaValue height = args.arg(5);
 
                   if(width.isnumber() && height.isnumber()) {
-                    Game.INSTANCE.getBatch().draw(texture, x.tofloat(), y.tofloat(), width.tofloat(),
-                        height.tofloat());
+                    Game.INSTANCE.getBatch().draw(texture, x.tofloat(), y.tofloat(),
+                        width.tofloat(), height.tofloat());
                   } else {
-                    Gdx.app.error(LogTags.TK, "During DrawTexture: expected width, height to be " +
-                        "LuaNumbers, got " + width + " and " + height);
+                    LOGGER.warning("Expected width, height to be LuaNumbers, got " + width + " and "
+                        + height);
 
                     return LuaBoolean.FALSE;
                   }
                 } else {
-                  Gdx.app.error(LogTags.TK, "During DrawTexture: unexpected number of arguments");
+                  LOGGER.warning("Unexpected number of arguments.");
 
                   return LuaBoolean.FALSE;
                 }
               } else {
-                Gdx.app.error(LogTags.TK, "During DrawTexture: expected x, y to be LuaNumbers, got "
-                    + x + " and " + y);
+                LOGGER.warning("Expected x, y to be LuaNumbers, got " + x + " and " + y);
 
                 return LuaBoolean.FALSE;
               }
             }
           } catch (GdxRuntimeException exception) {
-            Gdx.app.error(LogTags.TK, "During DrawTexture: asset could not be drawn.", exception);
+            LOGGER.log(Level.SEVERE, "Asset could not be drawn.", exception);
 
             return LuaBoolean.FALSE;
           }
 
           return LuaBoolean.TRUE;
         } else {
-          Gdx.app.log(LogTags.TK, "During DrawTexture: asset is still loading.");
+          LOGGER.info("Asset: <" + filename.checkjstring() + "> is still loading.");
 
           // There was no error, the asset is just being loaded, so we return true
           return LuaBoolean.TRUE;
