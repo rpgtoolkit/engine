@@ -1,6 +1,9 @@
 language: java
 jdk:
   - oraclejdk8
-before_install:
+install:
   - git clone -b master https://github.com/rpgtoolkit/core.git
   - mvn install -f core
+cache:
+  directories:
+    - $HOME/.m2
