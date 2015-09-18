@@ -1,0 +1,9 @@
+# Ignore intelliJ IDE files
+.idea
+*.iml
+
+# Ignore main Lua script
+main.lua
+
+# Ignore compiled jars
+target

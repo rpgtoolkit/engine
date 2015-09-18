@@ -11,10 +11,16 @@ package net.rpgtoolkit.engine;
  *
  * @author Chris Hutchinson <chris@cshutchinson.com>
  */
-public abstract class State {
-    
-    public abstract void update();
-    
-    public abstract void render();
-    
+public interface GameState {
+  void initialize();
+
+  void pause();
+
+  void quit();
+
+  void render();
+
+  void resume();
+
+  void update();
 }
